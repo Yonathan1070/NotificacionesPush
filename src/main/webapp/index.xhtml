@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./masterPage.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <ui:define name="content">
+        <p:outputPanel class="col-md-4">
+            <h:form id="registro">
+                <p:growl id="msgs" showDetail="true" />
+                <p:panel id="pRegistro" header="#{msg.pRegistro}">
+                    <p:outputPanel class="form-group">
+                        <p:outputLabel id="lDocumento" for="iDocumento" value="#{msg.lDocumento}"/>
+                        <p:inputText id="iDocumento" class="form-control" value="#{indexController.documento}">
+                            <f:validator validatorId="validacionDocumento" />
+                        </p:inputText>
+                        <p:message for="iDocumento" />
+                    </p:outputPanel>
+                    <p:outputPanel class="form-group">
+                        <p:outputLabel id="lNombre" for="iNombre" value="#{msg.lNombre}"/>
+                        <p:inputText id="iNombre" class="form-control" value="#{indexController.nombres}">
+                            <f:validator validatorId="validacionNombre" />
+                        </p:inputText>
+                        <p:message for="iNombre" />
+                    </p:outputPanel>
+                    <p:outputPanel class="form-group">
+                        <p:outputLabel id="lApellido" for="iApellido" value="#{msg.lApellido}"/>
+                        <p:inputText id="iApellido" class="form-control" value="#{indexController.apellidos}">
+                            <f:validator validatorId="validacionApellido" />
+                        </p:inputText>
+                        <p:message for="iApellido" />
+                    </p:outputPanel>
+                    <p:outputPanel class="form-group">
+                        <p:outputLabel id="lTelefono" for="iTelefono" value="#{msg.lTelefono}"/>
+                        <p:inputText id="iTelefono" class="form-control" value="#{indexController.telefono}">
+                            <f:validator validatorId="validacionTelefono" />
+                        </p:inputText>
+                        <p:message for="iTelefono" />
+                    </p:outputPanel>
+                    <p:commandButton id="btnGuardar" action="#{indexController.agregarUsuario()}" class="btn btn-block btn-info" value="#{msg.btnGuardar}" update=":registro, :datos:dtUsuarios, :registro:msgs" />
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+        <p:outputPanel class="col-md-8">
+            <h:form id="datos">
+                <p:growl id="msgs" showDetail="true" />
+                <p:panel id="pDatos" header="#{msg.pDatos}">
+                    <p:dataTable id="dtUsuarios" var="usuario" value="#{indexController.registro.listaUsuarios}" editable="true" style="margin-bottom:20px">
+                        <f:facet name="header">
+                            Lista de Usuarios
+                        </f:facet>
+
+                        <p:ajax event="rowEdit" listener="#{indexController.editarUsuario}"  update=":datos:msgs" />
+                        <p:ajax event="rowEditCancel" listener="#{indexController.cancelar}" update=":datos:msgs" />
+
+                        <p:column headerText="#{msg.lDocumento}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.documento}" /></f:facet>
+                                <f:facet name="input"><p:inputText id="modelInput" value="#{usuario.documento}" style="width:100%"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="#{msg.lNombre}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.nombres}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{usuario.nombres}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="#{msg.lApellido}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.apellidos}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{usuario.apellidos}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column headerText="#{msg.lTelefono}">
+                            <p:cellEditor>
+                                <f:facet name="output"><h:outputText value="#{usuario.telefono}" /></f:facet>
+                                <f:facet name="input"><p:inputText value="#{usuario.telefono}" style="width:100%" label="Year"/></f:facet>
+                            </p:cellEditor>
+                        </p:column>
+
+                        <p:column style="width:35px">
+                            <p:rowEditor />
+                            <p:commandButton class="fa fa-trash" value="" actionListener="#{indexController.eliminarUsuario(usuario)}" update=":datos:msgs, :datos:dtUsuarios" >
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+            </h:form>
+        </p:outputPanel>
+    </ui:define>
+
+</ui:composition>

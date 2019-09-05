@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <style>
+            .ui-growl {
+                width: 701px !important;
+            }
+
+            .ui-growl-message {
+                width:620px !important;
+            }
+        </style>
+        <script>
+            function handleMessage(facesmessage) {
+
+                PF('wmsj').show([facesmessage]);
+            }
+        </script>
+        <title>#{msg.titulo}</title>
+    </h:head>
+
+    <h:body>
+        <p:outputPanel id="top">
+            <ui:insert name="header">
+                <h:form id="menu">
+                    <p:menubar style="background-color: transparent;">
+                        <p:menuitem id="inicio" value="#{msg.inicio}" />
+                    </p:menubar>
+                </h:form>
+            </ui:insert>
+        </p:outputPanel>
+        <p:outputPanel id="content" class="left_content">
+            <ui:insert name="content">Content</ui:insert>
+        </p:outputPanel>
+    </h:body>
+
+</html>
