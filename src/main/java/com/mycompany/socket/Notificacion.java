@@ -5,6 +5,7 @@
  */
 package com.mycompany.socket;
 
+import java.io.Serializable;
 import javax.faces.application.FacesMessage;
 import org.primefaces.push.annotation.OnMessage;
 import org.primefaces.push.annotation.PushEndpoint;
@@ -15,7 +16,7 @@ import org.primefaces.push.impl.JSONEncoder;
  * @author Yonathan
  */
 @PushEndpoint("/notificacion")
-public class Notificacion {
+public class Notificacion implements Serializable{
 
     /**
      * Creates a new instance of Notificacion

@@ -5,6 +5,7 @@
  */
 package com.mycompany.controlador;
 
+import com.mycompany.modelo.Accion;
 import com.mycompany.modelo.Usuario;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -31,6 +32,8 @@ public class IndexController implements Serializable {
 
     @ManagedProperty("#{registro}")
     private Registro registro;
+    @ManagedProperty("#{administradorController}")
+    private AdministradorController administrador;
 
     private Integer documento;
     private String nombres;
@@ -49,6 +52,14 @@ public class IndexController implements Serializable {
 
     public void setRegistro(Registro registro) {
         this.registro = registro;
+    }
+
+    public AdministradorController getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(AdministradorController administrador) {
+        this.administrador = administrador;
     }
 
     public Integer getDocumento() {
@@ -93,6 +104,7 @@ public class IndexController implements Serializable {
         FacesContext context = FacesContext.getCurrentInstance();
         context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Completado",
                 "Usuario agregado"));
+        administrador.getListaAcciones().add(new Accion("Nuevo Registro", "El cliente " + sessionId + " ha agregado a " + nombres + " " + apellidos));
         notificarPush("Nuevo Registro", "El cliente " + sessionId + " ha agregado a " + nombres + " " + apellidos);
     }
 
@@ -100,6 +112,7 @@ public class IndexController implements Serializable {
         Usuario usuario = ((Usuario) event.getObject());
         FacesMessage msg = new FacesMessage("Usuario", usuario.getNombres() + " editado");
         FacesContext.getCurrentInstance().addMessage(null, msg);
+        administrador.getListaAcciones().add(new Accion("Registro Actualizado", "El cliente " + sessionId + " ha modificado los datos de " + usuario.getNombres() + " " + usuario.getApellidos()));
         notificarPush("Registro Actualizado", "El cliente " + sessionId + " ha modificado los datos de " + usuario.getNombres() + " " + usuario.getApellidos());
     }
 
@@ -109,6 +122,7 @@ public class IndexController implements Serializable {
 
     public void eliminarUsuario(Usuario usuarioSeleccionado) {
         FacesMessage msg = new FacesMessage("Usuario", usuarioSeleccionado.getNombres() + " eliminado");
+        administrador.getListaAcciones().add(new Accion("Registro Eliminado", "El cliente " + sessionId + " ha eliminado el usuario " + usuarioSeleccionado.getNombres() + " " + usuarioSeleccionado.getApellidos()));
         notificarPush("Registro Eliminado", "El cliente " + sessionId + " ha eliminado el usuario " + usuarioSeleccionado.getNombres() + " " + usuarioSeleccionado.getApellidos());
         registro.getListaUsuarios().remove(usuarioSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, msg);
@@ -118,6 +132,6 @@ public class IndexController implements Serializable {
         String canal = "/notificacion";
 
         EventBus eventBus = EventBusFactory.getDefault().eventBus();
-        eventBus.publish(canal, new FacesMessage(FacesMessage.SEVERITY_ERROR, StringEscapeUtils.escapeHtml3(titulo), StringEscapeUtils.escapeHtml3(detalle)));
+        eventBus.publish(canal, new FacesMessage(StringEscapeUtils.escapeHtml3(titulo), StringEscapeUtils.escapeHtml3(detalle)));
     }
 }

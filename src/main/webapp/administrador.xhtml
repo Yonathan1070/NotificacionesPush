@@ -3,14 +3,32 @@
 <ui:composition xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
                 template="./masterPage.xhtml"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:h="http://xmlns.jcp.org/jsf/html">
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core">
     
     <ui:define name="content">
         <h:form>
             <p:growl id="msj" widgetVar="wmsj" showDetail="true"  />
             <p:socket onMessage="handleMessage" channel="/notificacion">
-
+                <p:ajax event="message" update=":datos:dtAcciones" />
             </p:socket>
+        </h:form>
+        <h:form id="datos">
+            <p:panel id="pAcciones" header="#{msg.pAcciones}" styleClass="card no-border" toggleable="true" toggleSpeed="300">
+                <p:dataTable id="dtAcciones" widgetVar="wdtAcciones" var="acn" value="#{administradorController.listaAcciones}" style="margin-bottom:20px">
+                    <f:facet name="header">
+                        #{msg.tituloTablaAcciones}
+                    </f:facet>
+
+                    <p:column headerText="#{msg.lTitulo}">
+                        <h:outputText value="#{acn.titulo}" />
+                    </p:column>
+
+                    <p:column headerText="#{msg.lAccion}">
+                        <h:outputText value="#{acn.accion}" />
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
         </h:form>
     </ui:define>
 
