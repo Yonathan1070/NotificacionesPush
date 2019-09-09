@@ -13,12 +13,16 @@ import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 
 /**
- *
- * @author Yonathan
+ * Declaracion de la Clase ValidacionTelefono 
+ * @author Yonathan Bohorquez
+ * @author Manuel Bohorquez
+ * @version 08-09-2019 1.0
  */
+//valor que se otorga a la clase para ser llamada como validacion en el campo telefono del formulario
 @FacesValidator(value = "validacionTelefono")
 public class ValidacionTelefono implements Validator {
     @Override
+    //metodo de validacion del campo telefono que valida mediante los valores establecidos el tipo de dato y que no sea nulo
     public void validate(FacesContext context, UIComponent component, Object value) throws ValidatorException {
         String texto = String.valueOf(value);
         if (value == null) {

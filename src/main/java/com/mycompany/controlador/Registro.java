@@ -13,22 +13,25 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
 /**
- *
- * @author Yonathan
+ * Declaracion de la clase Registro que para nuestro caso es el Bean de apoyo 
+ * @author Yonathan Bohorquez
+ * @author Manuel Bohorquez
+ * @version 08-09-2019 1.0
  */
 @ManagedBean
 @SessionScoped
 public class Registro implements Serializable {
-
+    //declaracion del atributo privado tipo lista de la clase
     private List<Usuario> listaUsuarios;
 
     /**
-     * Creates a new instance of Registro
+     * Creacion nueva instancia de Registro
      */
+    //Metodo que convierte nuestra lista en un ArrayList
     public Registro() {
         listaUsuarios = new ArrayList();
     }
-
+    // Getter y Setter de la lista listaUsuarios
     public List<Usuario> getListaUsuarios() {
         return listaUsuarios;
     }

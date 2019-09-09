@@ -23,13 +23,15 @@ import org.primefaces.push.EventBus;
 import org.primefaces.push.EventBusFactory;
 
 /**
- *
- * @author Yonathan
+ * Declaracion de la clase IndexController 
+ * @author Yonathan Bohorquez
+ * @author Manuel Bohorquez
+ * @version 08-09-2019 1.0
  */
 @ManagedBean
 @RequestScoped
 public class IndexController implements Serializable {
-
+    //Declaracion de los atributos privados de la clase
     @ManagedProperty("#{registro}")
     private Registro registro;
     @ManagedProperty("#{administradorController}")
@@ -41,11 +43,12 @@ public class IndexController implements Serializable {
     private Long telefono;
 
     /**
-     * Creates a new instance of IndexController
+     * Creacion nueva instancia de IndexController
      */
+    //Constructor vacio de la clase
     public IndexController() {
     }
-
+    //getter y setter de los atributos de la clase
     public Registro getRegistro() {
         return registro;
     }
@@ -93,11 +96,12 @@ public class IndexController implements Serializable {
     public void setTelefono(Long telefono) {
         this.telefono = telefono;
     }
-
+    //obtencion de id de la sesion para saber que cliente hace la accion
     FacesContext fCtx = FacesContext.getCurrentInstance();
     HttpSession session = (HttpSession) fCtx.getExternalContext().getSession(false);
     String sessionId = session.getId();
-
+    
+    //metodo de agregar informacion 
     public void agregarUsuario() {
 
         registro.getListaUsuarios().add(new Usuario(documento, nombres, apellidos, telefono));
@@ -107,7 +111,7 @@ public class IndexController implements Serializable {
         administrador.getListaAcciones().add(new Accion("Nuevo Registro", "El cliente " + sessionId + " ha agregado a " + nombres + " " + apellidos));
         notificarPush("Nuevo Registro", "El cliente " + sessionId + " ha agregado a " + nombres + " " + apellidos);
     }
-
+    //metodo de editar informacion
     public void editarUsuario(RowEditEvent event) {
         Usuario usuario = ((Usuario) event.getObject());
         FacesMessage msg = new FacesMessage("Usuario", usuario.getNombres() + " editado");
@@ -115,11 +119,11 @@ public class IndexController implements Serializable {
         administrador.getListaAcciones().add(new Accion("Registro Actualizado", "El cliente " + sessionId + " ha modificado los datos de " + usuario.getNombres() + " " + usuario.getApellidos()));
         notificarPush("Registro Actualizado", "El cliente " + sessionId + " ha modificado los datos de " + usuario.getNombres() + " " + usuario.getApellidos());
     }
-
+    //metodo de cancelacion de operacion por parte del usuario
     public void cancelar(RowEditEvent event) {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Cancelado", "Operación cancelada por el usuario."));
     }
-
+    //metodo de eliminacion de informacion
     public void eliminarUsuario(Usuario usuarioSeleccionado) {
         FacesMessage msg = new FacesMessage("Usuario", usuarioSeleccionado.getNombres() + " eliminado");
         administrador.getListaAcciones().add(new Accion("Registro Eliminado", "El cliente " + sessionId + " ha eliminado el usuario " + usuarioSeleccionado.getNombres() + " " + usuarioSeleccionado.getApellidos()));
@@ -127,7 +131,7 @@ public class IndexController implements Serializable {
         registro.getListaUsuarios().remove(usuarioSeleccionado);
         FacesContext.getCurrentInstance().addMessage(null, msg);
     }
-
+    //metodo que realiza la notificacion y la recibe el script que esta en la masterpage para ser mostrada en el socket que esta en el administrador
     public void notificarPush(String titulo, String detalle) {
         String canal = "/notificacion";
 

@@ -14,22 +14,25 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 
 /**
- *
- * @author Yonathan
+ * Declaracion de la Clase AdministradorController
+ * @author Yonathan Bohorquez
+ * @author Manuel Bohorquez
+ * @version 08-09-2019 1.0
  */
 @ManagedBean
 @ApplicationScoped
 public class AdministradorController implements Serializable{
 
     /**
-     * Creates a new instance of AdministradorController
+     * Creacion nueva instancia de AdministradorController
      */
+    //Declaracion del atributo privado tipo lista de la clase
     private List<Accion> listaAcciones;
+    // metodo que convierte nuestra lista en un ArrayList
     public AdministradorController() {
-        System.out.println("Entra Constructor Admin");
-        listaAcciones = new ArrayList();
+       listaAcciones = new ArrayList();
     }
-
+    //getter y setter de la lista listaAcciones
     public List<Accion> getListaAcciones() {
         return listaAcciones;
     }

@@ -12,18 +12,20 @@ import org.primefaces.push.annotation.PushEndpoint;
 import org.primefaces.push.impl.JSONEncoder;
 
 /**
- *
- * @author Yonathan
+ * Declaracion de la clase Notificacion
+ * @author Yonathan Bohorquez
+ * @author Manuel Bohorquez
+ * @version 08-09-2019 1.0
  */
 @PushEndpoint("/notificacion")
 public class Notificacion implements Serializable{
 
     /**
-     * Creates a new instance of Notificacion
+     * Creacion nueva instancia de Notificacion
      */
     public Notificacion() {
     }
-    
+    //metodo que devuelve un mensaje
     @OnMessage(encoders = {JSONEncoder.class})
     public FacesMessage mensaje(FacesMessage mensajeNotificacion){
         return mensajeNotificacion;
